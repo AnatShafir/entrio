@@ -1,20 +1,20 @@
-const { insert, findById } = require('../../src/collections/companies-collection');
+const { insert, findById } = require('../../src/db/db-functions');
 const { testCompany } = require('../test-data');
-const { getDB } = require('../../src/db-interface');
+const { getDB } = require('../../src/db/db-client');
 
+const collectionName = 'companies';
 let collection;
 
 describe('Company collection', () => {
   beforeAll(() => {
     const db = getDB();
-    const collectionName = 'companies';
     collection = db.collection(collectionName);
   });
 
   afterEach(async () => await collection.drop());
 
   test('should insert a company into the collection', async () => {
-    const { insertedIds } = await insert(testCompany);
+    const { insertedIds } = await insert(collectionName, testCompany);
     const companyId = insertedIds[0];
     const expectedCompany = { ...testCompany, _id: companyId };
     const company = await collection.findOne({ _id: companyId });
@@ -25,7 +25,7 @@ describe('Company collection', () => {
     const { insertedIds } = await collection.insert(testCompany);
     const companyId = insertedIds[0];
     const expectedCompany = { ...testCompany, _id: companyId };
-    const company = await findById(companyId);
+    const company = await findById(collectionName, companyId);
     expect(company).toEqual(expectedCompany);
   });
 });

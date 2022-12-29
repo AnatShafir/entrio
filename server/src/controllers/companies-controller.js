@@ -1,14 +1,16 @@
-const { insert, findById } = require('../collections/companies-collection');
+const { insert, findById } = require('../db/db-functions');
+
+const collectionName = 'companies';
 
 const getCompanyById = async (req, res) => {
   const companyId = req.params.id;
-  const result = await findById(companyId);
+  const result = await findById(collectionName, companyId);
   res(result);
 };
 
 const postCompany = async (req, res) => {
   const company = req.body;
-  const result = await insert(company);
+  const result = await insert(collectionName, company);
   res(result);
 };
 
