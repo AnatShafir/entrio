@@ -1,12 +1,13 @@
 const express = require('express');
 
-const {
-  postUser, getUserById, patchUserSettings,
-} = require('../controllers/users-controller');
+const { postUser, getUserById, patchUserSettings } = require('../controllers/users-controller');
+const authorize = require('../middleware/authorization.js');
 
+const userPermitted = authorize('user', 'admin');
 const usersRouter = express.Router();
+
 usersRouter.post('/', postUser);
-usersRouter.patch('/:id/settings', patchUserSettings);
-usersRouter.get('/:id', getUserById);
+usersRouter.patch('/:id/settings', userPermitted, patchUserSettings);
+usersRouter.get('/:id', userPermitted, getUserById);
 
 module.exports = usersRouter;
