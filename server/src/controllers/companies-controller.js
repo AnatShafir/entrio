@@ -14,4 +14,16 @@ const postCompany = async (req, res) => {
   res(result);
 };
 
-module.exports = { getCompanyById, postCompany };
+const getCompanyScore = async (req, res) => {
+  const companyId = req.params.id;
+  const { userId } = req.body;
+  const company = await findById(collectionName, companyId);
+  const { settings } = await findById(collectionName, userId);
+  const { userScoring } = company;
+  company.userScoringAvg = userScoring.reduce((a, b) => a + b, 0) / userScoring.length;
+  const companyScore = Object.keys(settings)
+    .reduce((score, settingKey) => score + company[settingKey] * settings[settingKey], 0);
+  res(companyScore);
+};
+
+module.exports = { getCompanyById, postCompany, getCompanyScore };

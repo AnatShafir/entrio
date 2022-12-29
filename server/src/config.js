@@ -5,9 +5,9 @@ module.exports = {
     dbName: 'entrio',
   },
   defaultSettings: {
-    companySizeWeight: 0.3,
-    companyFundingWeight: 0.4,
-    companyAgeWeight: 0.2,
-    userScoringWeight: 0.1,
+    size: 0.3,
+    funding: 0.4,
+    age: 0.2,
+    userScoringAvg: 0.1,
   },
 };
