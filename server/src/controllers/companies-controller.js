@@ -1,4 +1,4 @@
-const { findById } = require('../collections/companies-collection');
+const { insert, findById } = require('../collections/companies-collection');
 
 const getCompanyById = async (req, res) => {
   const companyId = req.params.id;
@@ -6,4 +6,10 @@ const getCompanyById = async (req, res) => {
   res(result);
 };
 
-module.exports = { getCompanyById };
+const postCompany = async (req, res) => {
+  const company = req.body;
+  const result = await insert(company);
+  res(result);
+};
+
+module.exports = { getCompanyById, postCompany };
