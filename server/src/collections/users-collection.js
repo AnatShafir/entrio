@@ -16,14 +16,14 @@ const isUpdateForbidden = async (userId, settings) => {
   return user.role !== 'admin' && settings.userScoringAvg;
 };
 
-const verifySettings = (settings) => {
+const validateSettings = (settings) => {
   const sumOfWeights = Object.entries(settings).reduce((a, b) => a + b, 0);
   return sumOfWeights === 1;
 };
 
 const updateUserSettingsById = async (_id, settings) => {
   const updateForbidden = await isUpdateForbidden(_id, settings);
-  if (updateForbidden || !verifySettings(settings)) throw new Error('Forbidden');
+  if (updateForbidden || !validateSettings(settings)) throw new Error('Forbidden');
   return await updateById(_id, { settings });
 };
 

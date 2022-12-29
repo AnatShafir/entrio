@@ -29,7 +29,8 @@ const patchUserSettings = async (req, res, next) => {
     const result = await updateUserSettingsById(userId, { settings: updateSettings });
     res.json(result);
   } catch (error) {
-    if (error.message === 'Forbidden') res.status(403).send(error.message);
+    const message = error?.message;
+    if (message === 'Forbidden') res.status(403).json({ message });
     else next(error);
   }
 };
