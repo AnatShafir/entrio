@@ -1,10 +1,12 @@
 const express = require('express');
 
-const { postUser, putUser, getUserById } = require('../controllers/users-controller');
+const {
+  postUser, getUserById, patchUserSettings,
+} = require('../controllers/users-controller');
 
 const usersRouter = express.Router();
 usersRouter.post('/', postUser);
-usersRouter.put('/:id', putUser);
+usersRouter.patch('/:id/settings', patchUserSettings);
 usersRouter.get('/:id', getUserById);
 
 module.exports = usersRouter;
