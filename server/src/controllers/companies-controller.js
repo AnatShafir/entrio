@@ -1,29 +1,34 @@
-const { insert, findById } = require('../db/db-functions');
+const { calcCompanyScore, insertCompany, findCompanyById } = require('../collections/companies-collection');
 
-const collectionName = 'companies';
-
-const getCompanyById = async (req, res) => {
-  const companyId = req.params.id;
-  const result = await findById(collectionName, companyId);
-  res(result);
+const getCompanyById = async (req, res, next) => {
+  try {
+    const companyId = req.params.id;
+    const result = await findCompanyById(companyId);
+    res.json(result);
+  } catch (error) {
+    next(error);
+  }
 };
 
-const postCompany = async (req, res) => {
-  const company = req.body;
-  const result = await insert(collectionName, company);
-  res(result);
+const postCompany = async (req, res, next) => {
+  try {
+    const company = req.body;
+    const result = await insertCompany(company);
+    res.json(result);
+  } catch (error) {
+    next(error);
+  }
 };
 
-const getCompanyScore = async (req, res) => {
-  const companyId = req.params.id;
-  const { userId } = req.body;
-  const company = await findById(collectionName, companyId);
-  const { settings } = await findById(collectionName, userId);
-  const { userScoring } = company;
-  company.userScoringAvg = userScoring.reduce((a, b) => a + b, 0) / userScoring.length;
-  const companyScore = Object.keys(settings)
-    .reduce((score, settingKey) => score + company[settingKey] * settings[settingKey], 0);
-  res(companyScore);
+const getCompanyScore = async (req, res, next) => {
+  try {
+    const companyId = req.params.id;
+    const { userId } = req.body;
+    const companyScore = calcCompanyScore(companyId, userId);
+    res.json(companyScore);
+  } catch (error) {
+    next(error);
+  }
 };
 
 module.exports = { getCompanyById, postCompany, getCompanyScore };

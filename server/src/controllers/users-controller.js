@@ -1,26 +1,39 @@
-const { insert, updateById, findById } = require('../db/db-functions');
-const { defaultSettings } = require('../config');
+const {
+  updateUserSettingsById, insertUser, findUserById,
+} = require('../collections/users-collection');
 
-const collectionName = 'users';
-
-const postUser = async (req, res) => {
-  let user = req.body;
-  user = { ...user, settings: defaultSettings, role: 'user' };
-  const result = await insert(collectionName, user);
-  res(result);
+const postUser = async (req, res, next) => {
+  try {
+    const user = req.body;
+    const result = await insertUser(user);
+    res.json(result);
+  } catch (error) {
+    next(error);
+  }
 };
 
-const putUser = async (req, res) => {
-  const userId = req.params.id;
-  const updateObj = req.body;
-  const result = await updateById(collectionName, userId, updateObj);
-  res(result);
+const getUserById = async (req, res, next) => {
+  try {
+    const userId = req.params.id;
+    const result = await findUserById(userId);
+    res.json(result);
+  } catch (error) {
+    next(error);
+  }
 };
 
-const getUserById = async (req, res) => {
-  const userId = req.params.id;
-  const result = await findById(collectionName, userId);
-  res(result);
+const patchUserSettings = async (req, res, next) => {
+  try {
+    const userId = req.params.id;
+    const updateSettings = req.body;
+    const result = await updateUserSettingsById(userId, { settings: updateSettings });
+    res.json(result);
+  } catch (error) {
+    if (error.message === 'Forbidden') res.status(403).send(error.message);
+    else next(error);
+  }
 };
 
-module.exports = { postUser, putUser, getUserById };
+module.exports = {
+  postUser, getUserById, patchUserSettings,
+};
