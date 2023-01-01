@@ -2,12 +2,17 @@ const { getDB } = require('./db-client');
 
 const insertFunc = (collectionName) => async (objToInsert) => {
   const collection = getDB().collection(collectionName);
-  return await collection.insert(objToInsert);
+  return await collection.insertOne(objToInsert);
 };
 
 const findByIdFunc = (collectionName) => async (_id) => {
   const collection = getDB().collection(collectionName);
   return await collection.findOne({ _id });
+};
+
+const findAllFunc = (collectionName) => async () => {
+  const collection = getDB().collection(collectionName);
+  return await collection.find().toArray();
 };
 
 const updateByIdFunc = (collectionName) => async (_id, updateObj) => {
@@ -18,6 +23,7 @@ const updateByIdFunc = (collectionName) => async (_id, updateObj) => {
 const getDBFunctions = (collectionName) => ({
   insert: insertFunc(collectionName),
   findById: findByIdFunc(collectionName),
+  findAll: findAllFunc(collectionName),
   updateById: updateByIdFunc(collectionName),
 });
 

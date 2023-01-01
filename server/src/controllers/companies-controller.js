@@ -1,4 +1,15 @@
-const { calcCompanyScore, insertCompany, findCompanyById } = require('../collections/companies-collection');
+const {
+  findAllCompanies, calcCompanyScore, insertCompany, findCompanyById,
+} = require('../collections/companies-collection');
+
+const getAllCompanies = async (req, res, next) => {
+  try {
+    const result = await findAllCompanies();
+    res.json(result);
+  } catch (error) {
+    next(error);
+  }
+};
 
 const getCompanyById = async (req, res, next) => {
   try {
@@ -31,4 +42,6 @@ const getCompanyScore = async (req, res, next) => {
   }
 };
 
-module.exports = { getCompanyById, postCompany, getCompanyScore };
+module.exports = {
+  getCompanyById, postCompany, getCompanyScore, getAllCompanies,
+};
