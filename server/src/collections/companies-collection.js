@@ -3,7 +3,7 @@ const getDBFunctions = require('../db/db-functions');
 const collectionName = 'companies';
 const { insert, findById, findAll } = getDBFunctions(collectionName);
 
-const insertCompany = async (company) => await insert(company);
+const insertCompany = async (company) => await insert({ ...company, userScoring: [] });
 
 const findAllCompanies = async () => await findAll();
 
