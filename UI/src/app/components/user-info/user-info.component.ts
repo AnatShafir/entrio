@@ -1,11 +1,10 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
 import { User } from 'src/app/interfaces/user';
-import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
-import { UsersService } from 'src/app/services/users/users.service'
+import { UsersService } from 'src/app/services/users.service'
 import { Settings } from 'src/app/interfaces/settings';
-import { HttpErrorResponse } from '@angular/common/http';
+import { SettingsService } from 'src/app/services/settings.service';
+import { ErrorService } from 'src/app/services/error.service';
 
 @Component({
   selector: 'app-user-info',
@@ -16,32 +15,32 @@ export class UserInfoComponent {
   @Input() user?: User;
   isDisabled: boolean = true;
 
-  constructor(public dialog: MatDialog, private usersService: UsersService) {}
-  
+  constructor(
+    private settingsService: SettingsService,
+    private usersService: UsersService,
+    private errorService: ErrorService
+  ) { }
+
   ngOnChanges(changes: SimpleChanges) {
     this.user = changes['user'].currentValue;
   }
-  
+
   editMode(form?: NgForm) {
     this.isDisabled = !this.isDisabled;
     if (form) form.resetForm(this.user?.settings);
   }
-  
+
   async onSaveChanges(form: NgForm) {
-    const { value: formValue }: { value: Record<string, string> } = form;
+    const { value: formValue } = form;
     const settingsUpdate: Settings = this.getSettingsFromFormValue(formValue);
     const newSetting = { ...this.user?.settings, ...settingsUpdate };
-    if (this.settingsDeepEqual(newSetting, this.user!.settings)) {
+    const isEqualSettings = this.settingsService.settingsDeepEqual(newSetting, this.user!.settings);
+    if (isEqualSettings) {
       this.editMode();
       return;
     }
-
-    const sumOfSettings = Object.values(newSetting).reduce((a, b) => +(a + b).toFixed(2), 0);
-    if (sumOfSettings === 1) await this.updateUserSettings(settingsUpdate);
-    else {
-      const message = `The user settings should sum up to 1 but instead sum up to ${sumOfSettings}`;
-      this.openErrorDialog(message);
-    }
+    const isSettingsValid = this.settingsService.validateSettings(newSetting);
+    if (isSettingsValid) await this.updateUserSettings(settingsUpdate);
   }
 
   getSettingsFromFormValue(formValue: Record<string, string>) {
@@ -51,29 +50,14 @@ export class UserInfoComponent {
     }, {} as Settings);
   }
 
-  settingsDeepEqual(firstSettings: Settings, secondSettings: Settings) {
-    const equalLength = Object.keys(firstSettings).length === Object.keys(secondSettings).length;
-    const equalValues = Object.keys(firstSettings).every((key: string) => 
-      firstSettings[key as keyof Settings] === secondSettings[key as keyof Settings]);
-    return equalLength && equalValues;
-  }
-  
   async updateUserSettings(settingsUpdate: Settings) {
-    const response = await this.usersService.updateSettings(settingsUpdate, this.user!);
-    if (response instanceof HttpErrorResponse) {
-      const { message } = response.error;
-      let displayMessage;
-      if (message === 'Forbidden') displayMessage = 'Sorry! This user is not permitted to this update';
-      else displayMessage = `Please try again later. error: ${message}`
-      this.openErrorDialog(displayMessage);
-    } else {
+    try {
+      await this.usersService.updateSettings(settingsUpdate, this.user!);
       this.user!.settings = { ...this.user?.settings, ...settingsUpdate };
-      this.editMode()
-    }
-  }
-  
-  openErrorDialog(message: string) {
-    const data = { message, origin: 'updating setting changes' };
-    this.dialog.open(ErrorDialogComponent, { data });
+      this.editMode();
+    } catch (error: Error | any) {
+      const message = error?.error.message === 'Forbidden' ? 'Sorry! This user is not permitted to this update' : '';
+      this.errorService.openDialog(message);
+    };
   }
 }
