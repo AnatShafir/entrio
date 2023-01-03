@@ -17,8 +17,9 @@ const postUserAuthenticate = async (req, res, next) => {
 const postUser = async (req, res, next) => {
   try {
     const { user } = req.body;
-    const userId = await insertUser(user);
-    res.json({ userId });
+    const { insertedId } = await insertUser(user);
+    const newUser = await findUserById(insertedId);
+    res.json({ user: newUser });
   } catch (error) {
     const message = error?.message;
     if (message === 'Conflict') res.status(409).json({ message });
@@ -28,8 +29,8 @@ const postUser = async (req, res, next) => {
 
 const getUserById = async (req, res, next) => {
   try {
-    const userId = req.params.id;
-    const user = await findUserById(userId);
+    const { id } = req.params;
+    const user = await findUserById(id);
     res.json({ user });
   } catch (error) {
     next(error);
@@ -40,8 +41,8 @@ const patchUserSettings = async (req, res, next) => {
   try {
     const userId = req.params.id;
     const { settings } = req.body;
-    const result = await updateUserSettingsById(userId, settings);
-    res.json(result);
+    await updateUserSettingsById(userId, settings);
+    res.status(200).json({ message: 'Updated' });
   } catch (error) {
     const message = error?.message;
     if (message === 'Forbidden') res.status(403).json({ message });

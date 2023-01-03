@@ -32,20 +32,21 @@ const authenticateUser = async (userInfo) => {
   } throw new Error('Unauthorized');
 };
 
-const isUpdateForbidden = async (userId, settings) => {
+const isUpdateForbidden = async (userId, settingsUpdate) => {
   const user = await findUserById(userId);
-  return user.role !== 'admin' && settings.userScoringAvg;
+  return user?.role !== 'admin' && settingsUpdate.userScoringAvg;
 };
 
 const validateSettings = (settings) => {
-  const sumOfWeights = Object.entries(settings).reduce((a, b) => a + b, 0);
+  const sumOfWeights = Object.values(settings).reduce((a, b) => +(a + b).toFixed(2), 0);
   return sumOfWeights === 1;
 };
 
-const updateUserSettingsById = async (_id, settings) => {
-  const updateForbidden = await isUpdateForbidden(_id, settings);
-  if (updateForbidden || !validateSettings(settings)) throw new Error('Forbidden');
-  return await updateById(_id, { settings });
+const updateUserSettingsById = async (userId, settingsUpdate) => {
+  const updateForbidden = await isUpdateForbidden(userId, settingsUpdate);
+  const newSettings = { ...defaultSettings, ...settingsUpdate };
+  if (updateForbidden || !validateSettings(newSettings)) throw new Error('Forbidden');
+  return await updateById(userId, { settings: newSettings });
 };
 
 module.exports = {

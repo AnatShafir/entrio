@@ -1,3 +1,5 @@
+const { ObjectId } = require('mongodb');
+
 const { getDB } = require('./db-client');
 
 const insertFunc = (collectionName) => async (objToInsert) => {
@@ -5,9 +7,9 @@ const insertFunc = (collectionName) => async (objToInsert) => {
   return await collection.insertOne(objToInsert);
 };
 
-const findByIdFunc = (collectionName) => async (_id) => {
+const findByIdFunc = (collectionName) => async (id) => {
   const collection = getDB().collection(collectionName);
-  return await collection.findOne({ _id });
+  return await collection.findOne({ _id: ObjectId(id) });
 };
 
 const findByNameFunc = (collectionName) => async (username) => {
@@ -20,9 +22,9 @@ const findAllFunc = (collectionName) => async () => {
   return await collection.find().toArray();
 };
 
-const updateByIdFunc = (collectionName) => async (_id, updateObj) => {
+const updateByIdFunc = (collectionName) => async (id, updateObj) => {
   const collection = getDB().collection(collectionName);
-  return await collection.updateOne({ _id }, { $set: updateObj });
+  return await collection.updateOne({ _id: ObjectId(id) }, { $set: updateObj });
 };
 
 const getDBFunctions = (collectionName) => ({

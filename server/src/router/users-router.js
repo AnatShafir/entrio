@@ -11,6 +11,6 @@ const usersRouter = express.Router();
 usersRouter.post('/', postUser);
 usersRouter.post('/authenticate', postUserAuthenticate);
 usersRouter.patch('/:id/settings', userPermitted, patchUserSettings);
-usersRouter.get('/:id', userPermitted, getUserById);
+usersRouter.get('/:id', getUserById);
 
 module.exports = usersRouter;
