@@ -1,10 +1,7 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { Company } from 'src/app/interfaces/company';
-import { DialogError } from 'src/app/interfaces/dialog-error';
-import { CompaniesService } from 'src/app/services/companies/companies.service';
-import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
+import { CompaniesService } from 'src/app/services/companies.service';
+import { ErrorService } from 'src/app/services/error.service';
 
 @Component({
   selector: 'app-companies-list',
@@ -15,24 +12,22 @@ import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
 export class CompaniesListComponent {
   companies: Company[] = [];
 
-  constructor(public dialog: MatDialog, private companiesService: CompaniesService) {
-    this.getAllCompanies();
-  }
+  constructor(private companiesService: CompaniesService, private errorService: ErrorService) {}
   
-  async getAllCompanies() {
-    const response = await this.companiesService.getCompanies();
-    if (!(response instanceof HttpErrorResponse)) this.companies = response['companies'] as Company[];
-    else {
-      const { message } = response.error;
-      const data: DialogError = { 
-        message: `Please try again later. error: ${message}`,
-        origin: 'loading companies list' 
-      };
-      this.dialog.open(ErrorDialogComponent, { data });
+  async ngOnInit() {
+    try {
+      this.companies = await this.companiesService.getCompanies();
+    } catch (error) {
+      this.errorService.openDialog();
     }
   }
 
-  addCompany(newCompany: Company) {
-    this.companies.push(newCompany);
+  async addCompany(newCompany: Company) {
+    try {
+      const company = await this.companiesService.postCompany(newCompany);
+      this.companies.push(company);
+    } catch (error) {
+      this.errorService.openDialog();
+    }
   }
 }
