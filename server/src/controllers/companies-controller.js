@@ -5,7 +5,7 @@ const {
 const getAllCompanies = async (_req, res, next) => {
   try {
     const companies = await findAllCompanies();
-    res.json({ companies });
+    res.status(200).json({ companies });
   } catch (error) {
     next(error);
   }
@@ -15,7 +15,7 @@ const getCompanyById = async (req, res, next) => {
   try {
     const companyId = req.params.id;
     const company = await findCompanyById(companyId);
-    res.json({ company });
+    res.status(200).json({ company });
   } catch (error) {
     next(error);
   }
@@ -25,7 +25,7 @@ const postCompany = async (req, res, next) => {
   try {
     const { company } = req.body;
     const companyId = await insertCompany(company);
-    res.json({ companyId });
+    res.status(200).json({ companyId });
   } catch (error) {
     next(error);
   }
@@ -36,7 +36,7 @@ const getCompanyScore = async (req, res, next) => {
     const companyId = req.params.id;
     const { userId } = req.body;
     const companyScore = calcCompanyScore(companyId, userId);
-    res.json({ companyScore });
+    res.status(200).json({ companyScore });
   } catch (error) {
     next(error);
   }

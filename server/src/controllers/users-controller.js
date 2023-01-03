@@ -6,7 +6,7 @@ const postUserAuthenticate = async (req, res, next) => {
   try {
     const { user } = req.body;
     const userData = await authenticateUser(user);
-    res.json({ user: userData });
+    res.status(200).json({ user: userData });
   } catch (error) {
     const message = error?.message;
     if (message === 'Unauthorized') res.status(401).json({ message });
@@ -19,7 +19,7 @@ const postUser = async (req, res, next) => {
     const { user } = req.body;
     const { insertedId } = await insertUser(user);
     const newUser = await findUserById(insertedId);
-    res.json({ user: newUser });
+    res.status(200).json({ user: newUser });
   } catch (error) {
     const message = error?.message;
     if (message === 'Conflict') res.status(409).json({ message });
@@ -31,7 +31,7 @@ const getUserById = async (req, res, next) => {
   try {
     const { id } = req.params;
     const user = await findUserById(id);
-    res.json({ user });
+    res.status(200).json({ user });
   } catch (error) {
     next(error);
   }
