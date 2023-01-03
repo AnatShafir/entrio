@@ -23,8 +23,12 @@ const findUserById = async (userId) => await findById(userId);
 const authenticateUser = async (userInfo) => {
   const user = await findByName(userInfo.username);
   if (user && userInfo.password === user.password) {
-    const { username, role, settings } = user;
-    return { username, role, settings };
+    const {
+      _id, username, role, settings,
+    } = user;
+    return {
+      _id, username, role, settings,
+    };
   } throw new Error('Unauthorized');
 };
 
