@@ -1,0 +1,28 @@
+<mat-card>
+  <ng-container *ngIf="!userLoggedIn; then unlogged; else logged"></ng-container>
+
+  <ng-template #unlogged>
+    
+    <ng-container *ngIf="!showUserRegister; then login; else register"></ng-container>
+
+    <ng-template #login>
+      <app-user-form [type]="'Login'" (submitEvent)="handleLogin($event)"></app-user-form>
+      <mat-card-actions>
+        <button mat-raised-button color="accent" (click)="showUserRegister = true">Are you new here?</button>
+      </mat-card-actions>
+    </ng-template>
+    
+    <ng-template #register>
+      <app-user-form [type]="'Register'" (submitEvent)="handleRegister($event)"></app-user-form>
+      <mat-card-actions>
+        <button mat-raised-button color="accent" (click)="showUserRegister = false">Already registered?</button>
+      </mat-card-actions>
+    </ng-template>
+
+  </ng-template>
+
+  <ng-template #logged>
+    <app-user-info *ngIf="userLoggedIn; else unlogged" [user]="user"></app-user-info>
+  </ng-template>
+
+</mat-card>

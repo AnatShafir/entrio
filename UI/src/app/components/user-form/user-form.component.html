@@ -1,0 +1,23 @@
+<mat-card-header>
+  <mat-card-title>{{ type }}</mat-card-title>
+</mat-card-header>
+<mat-card-content>
+  <form>
+    <mat-form-field appearance="fill">
+      <mat-label>User name</mat-label>
+      <input matInput placeholder="enter user name" value="" #username>
+    </mat-form-field>
+    <br>
+    <mat-form-field appearance="fill">
+      <mat-label>Password</mat-label>
+      <input matInput [type]="hidePassword ? 'password' : 'text'" #password>
+      <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+        <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+      </button>
+    </mat-form-field>
+  </form>
+  <mat-divider></mat-divider>
+</mat-card-content>
+<mat-card-actions>
+  <button mat-raised-button color="accent" (click)="submit(username.value, password.value)">{{ type }}</button>
+</mat-card-actions>
