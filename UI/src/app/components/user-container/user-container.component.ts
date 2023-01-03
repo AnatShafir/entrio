@@ -1,11 +1,8 @@
 import { Component } from '@angular/core';
 import { User } from 'src/app/interfaces/user';
-import { MatDialog } from '@angular/material/dialog';
-import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
-import { HttpErrorResponse } from '@angular/common/http';
 import { UserForm } from 'src/app/interfaces/user-form';
-import { UsersService } from 'src/app/services/users/users.service';
-import { DialogError } from 'src/app/interfaces/dialog-error';
+import { ErrorService } from 'src/app/services/error.service';
+import { UsersService } from 'src/app/services/users.service';
 
 @Component({
   selector: 'app-user-container',
@@ -17,37 +14,25 @@ export class UserContainerComponent {
   showUserRegister: boolean = false;
   user?: User;
   
-  constructor(public dialog: MatDialog, private userService: UsersService) {}
+  constructor(private userService: UsersService, private errorService: ErrorService) {}
 
   async handleLogin(userForm: UserForm) {
-    const response = await this.userService.login(userForm);
-    if (response instanceof HttpErrorResponse) {
-      const { message } = response.error;
-      const dialogError: DialogError = { message, origin: 'login' };
-      if (message === 'Unauthorized') dialogError.message = 'User name or password are incorrect';
-      else dialogError.message = `Please try again later. error: ${message}`;
-      this.openDialog(dialogError);
-    } else {
+    try {
+      this.user = await this.userService.login(userForm);
       this.userLoggedIn = true;
-      this.user = response['user'] as User;
+    } catch (error: Error | any) {
+      const message = error?.error?.message === 'Unauthorized' ? 'User name or password are incorrect' : '';
+      this.errorService.openDialog(message);
     }
   }
   
   async handleRegister(userForm: UserForm) {
-    const response = await this.userService.register(userForm);
-    if (response instanceof HttpErrorResponse) {
-      const { message } = response.error;
-      const dialogError: DialogError = { message, origin: 'register' };
-      if (message === 'Conflict') dialogError.message = 'Sorry! This user name is already taken';
-      else dialogError.message = `Please try again later. error: ${message}`;
-      this.openDialog(dialogError);
-    } else {
+    try {
+      this.user = await this.userService.register(userForm);
       this.userLoggedIn = true;
-      this.user = response['user'] as User;
+    } catch (error: Error | any) {
+      const message = error?.error.message === 'Conflict' ? 'Sorry! This user name is already taken' : '';
+      this.errorService.openDialog(message);
     }
-  }
-
-  openDialog(data: DialogError) {
-    this.dialog.open(ErrorDialogComponent, { data });
   }
 }

@@ -1,7 +1,6 @@
 <h1 mat-dialog-title>Oops...</h1>
 <div mat-dialog-content>
-  <p>There has been a problem with {{ dialogError.origin }}</p>
-  <p>{{ dialogError.message }}</p>
+  <p>{{ data.message }}</p>
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="this.dialogRef.close()">Ok</button>
