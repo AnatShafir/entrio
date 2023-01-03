@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import {MatDialog, MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { Company } from 'src/app/interfaces/company';
 import { CompaniesService } from 'src/app/services/companies/companies.service';
 import { AddCompanyFormComponent } from '../add-company-form/add-company-form.component';
@@ -18,11 +18,12 @@ export class ToolbarComponent {
   openAddCompanyForm(): void {
     const dialogRef = this.dialog.open(AddCompanyFormComponent);
 
-    dialogRef.afterClosed().subscribe(async newCompany => {
-      if (newCompany) {
-        await this.companiesService.postCompany(newCompany);
-        this.newCompanyEvent.emit(newCompany)
-      }
+    dialogRef.afterClosed().subscribe(newCompany => {
+      console.log(newCompany);
+      // if (newCompany) {
+      //   await this.companiesService.postCompany(newCompany);
+      //   this.newCompanyEvent.emit(newCompany)
+      // }
     });
   }
 }
