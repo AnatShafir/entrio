@@ -1,10 +1,13 @@
-const startApp = require('./app');
+const app = require('./app');
+const { db: dbConfig, port } = require('./config');
 const { connectDB } = require('./db/db-client');
-const { db: dbConfig } = require('./config');
+const logger = require('./utils/logger');
 
 const start = async () => {
   await connectDB(dbConfig);
-  startApp();
+  app.listen(port, () => {
+    logger.info(`App is listening on port: ${port}`);
+  });
 };
 
 start();
