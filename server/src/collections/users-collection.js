@@ -2,14 +2,31 @@ const { defaultSettings } = require('../config');
 const getDBFunctions = require('../db/db-functions');
 
 const collectionName = 'users';
-const { updateById, insert, findById } = getDBFunctions(collectionName);
+const {
+  updateById, insert, findById, findByName,
+} = getDBFunctions(collectionName);
 
 const insertUser = async (user) => {
-  const formattedUser = { ...user, settings: defaultSettings, role: 'user' };
-  return await insert(formattedUser);
+  const { username, password } = user;
+  const existingUser = await findByName(username);
+  if (existingUser) throw new Error('Conflict');
+  else {
+    const formattedUser = {
+      username, password, settings: defaultSettings, role: 'user',
+    };
+    return await insert(formattedUser);
+  }
 };
 
 const findUserById = async (userId) => await findById(userId);
+
+const authenticateUser = async (userInfo) => {
+  const user = await findByName(userInfo.username);
+  if (user && userInfo.password === user.password) {
+    const { username, role, settings } = user;
+    return { username, role, settings };
+  } throw new Error('Unauthorized');
+};
 
 const isUpdateForbidden = async (userId, settings) => {
   const user = await findUserById(userId);
@@ -28,5 +45,5 @@ const updateUserSettingsById = async (_id, settings) => {
 };
 
 module.exports = {
-  updateUserSettingsById, insertUser, findUserById,
+  updateUserSettingsById, insertUser, findUserById, authenticateUser,
 };

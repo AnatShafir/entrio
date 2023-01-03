@@ -10,6 +10,11 @@ const findByIdFunc = (collectionName) => async (_id) => {
   return await collection.findOne({ _id });
 };
 
+const findByNameFunc = (collectionName) => async (username) => {
+  const collection = getDB().collection(collectionName);
+  return await collection.findOne({ username });
+};
+
 const findAllFunc = (collectionName) => async () => {
   const collection = getDB().collection(collectionName);
   return await collection.find().toArray();
@@ -25,6 +30,7 @@ const getDBFunctions = (collectionName) => ({
   findById: findByIdFunc(collectionName),
   findAll: findAllFunc(collectionName),
   updateById: updateByIdFunc(collectionName),
+  findByName: findByNameFunc(collectionName),
 });
 
 module.exports = getDBFunctions;

@@ -1,6 +1,18 @@
 const {
-  updateUserSettingsById, insertUser, findUserById,
+  updateUserSettingsById, insertUser, findUserById, authenticateUser,
 } = require('../collections/users-collection');
+
+const postUserAuthenticate = async (req, res, next) => {
+  try {
+    const userInfo = req.body;
+    const user = await authenticateUser(userInfo);
+    res.json(user);
+  } catch (error) {
+    const message = error?.message;
+    if (message === 'Unauthorized') res.status(401).json({ message });
+    else next(error);
+  }
+};
 
 const postUser = async (req, res, next) => {
   try {
@@ -8,6 +20,8 @@ const postUser = async (req, res, next) => {
     const result = await insertUser(user);
     res.json(result);
   } catch (error) {
+    const message = error?.message;
+    if (message === 'Conflict') res.status(409).json({ message });
     next(error);
   }
 };
@@ -36,5 +50,5 @@ const patchUserSettings = async (req, res, next) => {
 };
 
 module.exports = {
-  postUser, getUserById, patchUserSettings,
+  postUser, getUserById, patchUserSettings, postUserAuthenticate,
 };
