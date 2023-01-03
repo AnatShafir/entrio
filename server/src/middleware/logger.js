@@ -1,12 +1,22 @@
+const crypto = require('crypto');
+
 module.exports = (logger) => (req, res, next) => {
-  const { method, url, params } = req;
-  logger.info('Received request', { method, url, params });
+  const reqId = crypto.randomUUID();
+  const reqInfo = {
+    method: req.method,
+    url: req.url,
+    params: req.params,
+    body: req.body,
+    reqId,
+  };
+
+  logger.info('Received request', reqInfo);
 
   res.on('finish', () => {
     const { statusCode } = res;
-    logger.info('Sent response', {
-      method, url, params, statusCode,
-    });
+    const reqRoute = `${reqInfo.method}: ${reqInfo.url}`;
+    logger.info('Sent response', { reqRoute, reqId, statusCode });
   });
+
   next();
 };
