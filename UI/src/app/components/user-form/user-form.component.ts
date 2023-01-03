@@ -10,7 +10,6 @@ export class UserFormComponent {
   hidePassword = true;
   @Input() type: string = '';
   @Output() submitEvent = new EventEmitter<UserForm>();
-  @Output() changeFormEvent = new EventEmitter();
 
   submit(username: string, password: string) {
     this.submitEvent.emit({ username, password });
