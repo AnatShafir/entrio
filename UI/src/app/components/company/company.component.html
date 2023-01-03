@@ -1,0 +1,12 @@
+<mat-expansion-panel color="basic">
+  <mat-expansion-panel-header>
+    <mat-panel-title>{{ company?.name }}</mat-panel-title>
+  </mat-expansion-panel-header>
+    <p>Size: {{ company?.size }}</p>
+    <p>Funding: {{ company?.funding }}</p>
+    <p>Age: {{ company?.age }}</p>
+    <p>User scoring average: {{ calcAvgUserScoring() }}</p>
+  <mat-action-row>
+    <button mat-raised-button color="accent">Calculate score</button>
+  </mat-action-row>
+</mat-expansion-panel>

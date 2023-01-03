@@ -1,0 +1,4 @@
+<app-toolbar (newCompanyEvent)="addCompany($event)"></app-toolbar>
+<mat-accordion *ngFor="let company of companies">
+  <app-company [company]="company"></app-company>
+</mat-accordion>
