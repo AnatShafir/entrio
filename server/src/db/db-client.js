@@ -9,7 +9,7 @@ const connectDB = async (dbConfig) => {
   db = client.db(dbConfig.dbName);
 };
 
-const closeDB = async () => await client.close();
+const closeDB = async () => await client?.close();
 
 const getDB = () => {
   if (!db) throw new Error('DB is not connected');
