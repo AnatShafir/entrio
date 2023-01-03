@@ -24,8 +24,9 @@ const getCompanyById = async (req, res, next) => {
 const postCompany = async (req, res, next) => {
   try {
     const { company } = req.body;
-    const companyId = await insertCompany(company);
-    res.status(200).json({ companyId });
+    const { insertedId } = await insertCompany(company);
+    const newCompany = await findCompanyById(insertedId);
+    res.status(200).json({ company: newCompany });
   } catch (error) {
     next(error);
   }
