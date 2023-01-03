@@ -2,10 +2,10 @@ const {
   findAllCompanies, calcCompanyScore, insertCompany, findCompanyById,
 } = require('../collections/companies-collection');
 
-const getAllCompanies = async (req, res, next) => {
+const getAllCompanies = async (_req, res, next) => {
   try {
-    const result = await findAllCompanies();
-    res.json(result);
+    const companies = await findAllCompanies();
+    res.json({ companies });
   } catch (error) {
     next(error);
   }
@@ -14,8 +14,8 @@ const getAllCompanies = async (req, res, next) => {
 const getCompanyById = async (req, res, next) => {
   try {
     const companyId = req.params.id;
-    const result = await findCompanyById(companyId);
-    res.json(result);
+    const company = await findCompanyById(companyId);
+    res.json({ company });
   } catch (error) {
     next(error);
   }
@@ -23,9 +23,9 @@ const getCompanyById = async (req, res, next) => {
 
 const postCompany = async (req, res, next) => {
   try {
-    const company = req.body;
-    const result = await insertCompany(company);
-    res.json(result);
+    const { company } = req.body;
+    const companyId = await insertCompany(company);
+    res.json({ companyId });
   } catch (error) {
     next(error);
   }
@@ -36,7 +36,7 @@ const getCompanyScore = async (req, res, next) => {
     const companyId = req.params.id;
     const { userId } = req.body;
     const companyScore = calcCompanyScore(companyId, userId);
-    res.json(companyScore);
+    res.json({ companyScore });
   } catch (error) {
     next(error);
   }

@@ -4,9 +4,9 @@ const {
 
 const postUserAuthenticate = async (req, res, next) => {
   try {
-    const userInfo = req.body;
-    const user = await authenticateUser(userInfo);
-    res.json(user);
+    const { user } = req.body;
+    const userData = await authenticateUser(user);
+    res.json({ user: userData });
   } catch (error) {
     const message = error?.message;
     if (message === 'Unauthorized') res.status(401).json({ message });
@@ -16,9 +16,9 @@ const postUserAuthenticate = async (req, res, next) => {
 
 const postUser = async (req, res, next) => {
   try {
-    const user = req.body;
-    const result = await insertUser(user);
-    res.json(result);
+    const { user } = req.body;
+    const userId = await insertUser(user);
+    res.json({ userId });
   } catch (error) {
     const message = error?.message;
     if (message === 'Conflict') res.status(409).json({ message });
@@ -29,8 +29,8 @@ const postUser = async (req, res, next) => {
 const getUserById = async (req, res, next) => {
   try {
     const userId = req.params.id;
-    const result = await findUserById(userId);
-    res.json(result);
+    const user = await findUserById(userId);
+    res.json({ user });
   } catch (error) {
     next(error);
   }
@@ -39,8 +39,8 @@ const getUserById = async (req, res, next) => {
 const patchUserSettings = async (req, res, next) => {
   try {
     const userId = req.params.id;
-    const updateSettings = req.body;
-    const result = await updateUserSettingsById(userId, { settings: updateSettings });
+    const { settings } = req.body;
+    const result = await updateUserSettingsById(userId, settings);
     res.json(result);
   } catch (error) {
     const message = error?.message;
