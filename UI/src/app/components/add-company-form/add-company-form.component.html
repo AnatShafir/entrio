@@ -1,26 +1,40 @@
 <h1 mat-dialog-title>New company</h1>
 <div mat-dialog-content>
-  <mat-form-field appearance="fill">
-    <mat-label>Name</mat-label>
-    <input matInput [(ngModel)]="company.name">
-  </mat-form-field>
-  <br>
-  <mat-form-field appearance="fill">
-    <mat-label>Size</mat-label>
-    <input matInput [(ngModel)]="company.size">
-  </mat-form-field>
-  <br>
-  <mat-form-field appearance="fill">
-    <mat-label>Funding</mat-label>
-    <input matInput [(ngModel)]="company.funding">
-  </mat-form-field>
-  <br>
-  <mat-form-field appearance="fill">
-    <mat-label>Age</mat-label>
-    <input matInput [(ngModel)]="company.age">
-  </mat-form-field>
+  <form #form="ngForm">
+    <mat-form-field appearance="fill">
+      <mat-label>Name</mat-label>
+      <input matInput name="name" #name="ngModel" required [(ngModel)]="company.name">
+      <mat-error *ngIf="!name.valid" class="alert alert-danger">
+        Name is required
+      </mat-error>
+    </mat-form-field>
+    <br>
+    <mat-form-field appearance="fill">
+      <mat-label>Size</mat-label>
+      <input matInput name="size" #size="ngModel" pattern="^[0-9]*$" required [(ngModel)]="company.size">
+      <mat-error *ngIf="!size.valid" class="alert alert-danger">
+        Size must be a number
+      </mat-error>
+    </mat-form-field>
+    <br>
+    <mat-form-field appearance="fill">
+      <mat-label>Funding</mat-label>
+      <input matInput name="funding" #funding="ngModel" pattern="^[0-9]*$" required [(ngModel)]="company.funding">
+      <mat-error *ngIf="!funding.valid" class="alert alert-danger">
+        Funding must be a number
+      </mat-error>
+    </mat-form-field>
+    <br>
+    <mat-form-field appearance="fill">
+      <mat-label>Age</mat-label>
+      <input matInput name="age" #age="ngModel" pattern="^[0-9]*$" required [(ngModel)]="company.age">
+      <mat-error *ngIf="!age.valid" class="alert alert-danger">
+        Age must be a number
+      </mat-error>
+    </mat-form-field>
+  </form>
 </div>
 <div mat-dialog-actions>
-  <button mat-button [mat-dialog-close]="company" cdkFocusInitial>Ok</button>
+  <button mat-button type="submit" [disabled]="!form.form.valid" [mat-dialog-close]="company" cdkFocusInitial>Ok</button>
   <button mat-button (click)="onNoClick()">No Thanks</button>
 </div>

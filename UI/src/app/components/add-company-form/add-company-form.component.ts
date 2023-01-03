@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MatDialogRef} from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 import { Company } from 'src/app/interfaces/company';
 
 @Component({
@@ -8,13 +8,7 @@ import { Company } from 'src/app/interfaces/company';
   styleUrls: ['./add-company-form.component.css'],
 })
 export class AddCompanyFormComponent {
-  company: Company = {
-    name:'',
-    size: 0,
-    funding: 0,
-    age: 0,
-    userScoring: []
-  };
+  company = {} as Company;
 
   constructor(
     public dialogRef: MatDialogRef<AddCompanyFormComponent>
