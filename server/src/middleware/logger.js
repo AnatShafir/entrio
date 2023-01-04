@@ -7,7 +7,7 @@ module.exports = (logger) => (req, res, next) => {
   };
 
   logger.info('Received request', reqInfo);
-  logger.debug('Received request', req);
+  logger.trace('Received request', req);
 
   res.on('finish', () => {
     const { statusCode, statusMessage } = res;
