@@ -12,5 +12,5 @@ module.exports = {
     userScoringAvg: 0.1,
   },
   TOKEN_SECRET: process.env.TOKEN_SECRET,
-  tokenExpiresIn: '1800s',
+  tokenExpiresIn: '3d',
 };

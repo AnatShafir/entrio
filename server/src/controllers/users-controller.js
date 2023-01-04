@@ -2,11 +2,16 @@ const {
   updateUserSettingsById, insertUser, findUserById, authenticateUser,
 } = require('../collections/users-collection');
 
+const { generateAccessToken } = require('../utils/jwt');
+
+const generateUserToken = ({ _id, role }) => generateAccessToken({ _id, role });
+
 const postUserAuthenticate = async (req, res, next) => {
   try {
     const { user } = req.body;
     const userData = await authenticateUser(user);
-    res.status(200).json({ user: userData });
+    const token = generateUserToken(userData);
+    res.status(200).json({ user: userData, token });
   } catch (error) {
     const message = error?.message;
     if (message === 'Unauthorized') res.status(401).json({ message });
@@ -19,11 +24,12 @@ const postUser = async (req, res, next) => {
     const { user } = req.body;
     const { insertedId } = await insertUser(user);
     const newUser = await findUserById(insertedId);
-    res.status(200).json({ user: newUser });
+    const token = generateUserToken(newUser);
+    res.status(200).json({ user: newUser, token });
   } catch (error) {
     const message = error?.message;
     if (message === 'Conflict') res.status(409).json({ message });
-    next(error);
+    else next(error);
   }
 };
 
