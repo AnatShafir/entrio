@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 type Response = Record<string, any>;
 
@@ -8,7 +9,7 @@ type Response = Record<string, any>;
   providedIn: 'root'
 })
 export class BackendService {
-  private serverUrl = 'http://localhost:3000';
+  private serverUrl = environment.serverUrl;
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
     withCredentials: true
