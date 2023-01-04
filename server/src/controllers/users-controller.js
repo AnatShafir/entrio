@@ -6,7 +6,7 @@ const { generateAccessToken } = require('../utils/jwt');
 
 const generateUserToken = ({ _id, role }) => generateAccessToken({ _id, role });
 
-const postUserAuthenticate = async (req, res, next) => {
+const postUserLogin = async (req, res, next) => {
   try {
     const { user } = req.body;
     const userData = await authenticateUser(user);
@@ -47,5 +47,5 @@ const patchUserSettings = async (req, res, next) => {
 };
 
 module.exports = {
-  postUser, patchUserSettings, postUserAuthenticate,
+  postUser, patchUserSettings, postUserLogin,
 };
