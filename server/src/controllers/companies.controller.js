@@ -1,6 +1,6 @@
 const {
   findAllCompanies, calcCompanyScore, insertCompany,
-} = require('../collections/companies-collection');
+} = require('../collections/companies.collection');
 
 const getAllCompanies = async (_req, res, next) => {
   try {

@@ -4,7 +4,7 @@ const authorize = require('../middleware/authorization');
 const authenticateToken = require('../middleware/authentication');
 const validate = require('../middleware/validation');
 
-const { getAllCompanies, postCompany, getCompanyScore } = require('../controllers/companies-controller');
+const { getAllCompanies, postCompany, getCompanyScore } = require('../controllers/companies.controller');
 
 const companiesRouter = express.Router();
 

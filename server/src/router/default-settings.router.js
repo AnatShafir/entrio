@@ -1,6 +1,6 @@
 const express = require('express');
 
-const { getDefaultSettings, putDefaultSettings } = require('../controllers/default-settings-controller');
+const { getDefaultSettings, putDefaultSettings } = require('../controllers/default-settings.controller');
 const authorize = require('../middleware/authorization');
 const authenticateToken = require('../middleware/authentication');
 

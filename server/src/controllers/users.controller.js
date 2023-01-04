@@ -1,4 +1,4 @@
-const { updateUserSettingsById, insertUser, validateLogin } = require('../collections/users-collection');
+const { updateUserSettingsById, insertUser, validateLogin } = require('../collections/users.collection');
 const { generateToken } = require('../utils/jwt');
 const { authCookieName } = require('../config');
 

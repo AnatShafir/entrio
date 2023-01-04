@@ -1,6 +1,6 @@
 const express = require('express');
 
-const { postUser, patchUserSettings, postUserLogin } = require('../controllers/users-controller');
+const { postUser, patchUserSettings, postUserLogin } = require('../controllers/users.controller');
 const authorize = require('../middleware/authorization');
 const authenticateToken = require('../middleware/authentication');
 const validate = require('../middleware/validation');

@@ -1,4 +1,4 @@
-const { findDefaultSettings, updateDefaultSettings } = require('../collections/default-settings-collection');
+const { findDefaultSettings, updateDefaultSettings } = require('../collections/default-settings.collection');
 
 const getDefaultSettings = async (_, res, next) => {
   try {

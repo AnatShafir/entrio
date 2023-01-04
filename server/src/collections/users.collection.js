@@ -1,6 +1,6 @@
 const { adminUser } = require('../config');
 const getDBFunctions = require('../db/db-functions');
-const { findDefaultSettings } = require('./default-settings-collection');
+const { findDefaultSettings } = require('./default-settings.collection');
 
 const collectionName = 'users';
 const {

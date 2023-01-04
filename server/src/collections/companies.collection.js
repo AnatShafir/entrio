@@ -1,5 +1,5 @@
 const getDBFunctions = require('../db/db-functions');
-const { findUserById } = require('./users-collection');
+const { findUserById } = require('./users.collection');
 
 const collectionName = 'companies';
 const { insert, findById, findAll } = getDBFunctions(collectionName);
