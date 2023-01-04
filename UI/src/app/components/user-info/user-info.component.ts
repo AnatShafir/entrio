@@ -31,8 +31,19 @@ export class UserInfoComponent {
       await this.settingsService.update(settingsUpdate);
       this.editMode();
     } catch (error: Error | any) {
-      const message = error.error.message === 'Validation' ? `The user settings should sum up to 1 but instead sum up to ${error.sumOfSettings}` : '';
+      const message = this.getSaveChangesErrorMessage(error);
       this.errorService.openDialog(message);
+    }
+  }
+  
+  getSaveChangesErrorMessage(error: Error | any) {
+    switch (error?.error?.message) {
+      case 'Validation':
+        return `The user settings should sum up to 1 but instead sum up to ${error.sumOfSettings}`;
+      case 'Forbidden':
+        return 'Sorry! This user is not permitted to this update';
+      default:
+        return '';
     }
   }
 

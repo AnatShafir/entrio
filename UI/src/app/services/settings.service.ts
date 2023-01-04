@@ -11,7 +11,6 @@ import { UsersService } from './users.service';
 export class SettingsService {
 
   constructor(
-    private errorService: ErrorService,
     private currentUser: CurrentUserService,
     private usersService: UsersService
   ) { }
@@ -26,14 +25,9 @@ export class SettingsService {
   }
 
   async saveChanges(settingsUpdate: Settings) {
-    try {
-      const currentUser = this.currentUser.getUser() as User;
-      await this.usersService.updateSettings(settingsUpdate, currentUser);
-      this.currentUser.setSettings({ ...currentUser.settings, ...settingsUpdate });
-    } catch (error: Error | any) {
-      const message = error?.error.message === 'Forbidden' ? 'Sorry! This user is not permitted to this update' : '';
-      this.errorService.openDialog(message);
-    };
+    const currentUser = this.currentUser.getUser() as User;
+    await this.usersService.updateSettings(settingsUpdate);
+    this.currentUser.setSettings({ ...currentUser.settings, ...settingsUpdate });
   }
 
   settingsDeepEqual(firstSettings: Settings, secondSettings: Settings) {
