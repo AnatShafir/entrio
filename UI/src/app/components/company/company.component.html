@@ -6,7 +6,7 @@
     <p>Funding: {{ company?.funding }}</p>
     <p>Age: {{ company?.age }}</p>
     <p>User scoring average: {{ calcAvgUserScoring() }}</p>
-  <mat-action-row>
-    <button mat-raised-button color="accent">Calculate score</button>
+  <mat-action-row *ngIf="currentUser.loggedIn">
+    <button mat-raised-button color="accent" (click)="getCompanyScore()">Calculate score</button>
   </mat-action-row>
 </mat-expansion-panel>
