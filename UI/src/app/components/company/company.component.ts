@@ -23,7 +23,9 @@ export class CompanyComponent {
   calcAvgUserScoring() {
     const userScoring = this.company?.userScoring as number[];
     if (userScoring.length < 1) return 0;
-    else return userScoring?.reduce((a, b) => a + b, 0) / userScoring?.length;
+    const sumOfScoring = userScoring?.reduce((a, b) => a + b, 0);
+    const average = Number((sumOfScoring / userScoring?.length).toFixed(2));
+    return average;
   }
 
   async getCompanyScore() {
