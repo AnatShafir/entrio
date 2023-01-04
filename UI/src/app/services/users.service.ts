@@ -25,6 +25,6 @@ export class UsersService {
   }
 
   async updateSettings(settings: Settings) {
-    await this.backend.patch(`${this.route}/settings`, { settings });
+    await this.backend.put(`${this.route}/settings`, { settings });
   }
 }

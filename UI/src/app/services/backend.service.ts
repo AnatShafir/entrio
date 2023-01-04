@@ -32,9 +32,9 @@ export class BackendService {
     return await lastValueFrom(requestObserver)
   }
   
-  async patch(route: string, body: object, options?: object) {
+  async put(route: string, body: object, options?: object) {
     const reqOptions = this.applyDefaultOptions(options);
-    const requestObserver = this.http.patch<Response>(`${this.serverUrl}/${route}`, body, reqOptions);
+    const requestObserver = this.http.put<Response>(`${this.serverUrl}/${route}`, body, reqOptions);
     return await lastValueFrom(requestObserver)
   }
 }
