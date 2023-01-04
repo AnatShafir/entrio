@@ -42,7 +42,7 @@ const getScore = {
 };
 
 const calcCompanyScore = async (companyId, userId) => {
-  const company = await findCompanyById(companyId);
+  const company = await findById(companyId);
   const { settings } = await findUserById(userId);
   const companyScore = Object.keys(settings).reduce((score, key) => {
     const companyValueScore = getScore[key](company[key]);
