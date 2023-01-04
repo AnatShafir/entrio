@@ -15,8 +15,8 @@ const postUserLogin = async (req, res, next) => {
       .json({ user: userData });
   } catch (error) {
     const message = error?.message;
-    if (message === 'Unauthorized') res.status(401).json({ message });
-    else next(error);
+    if (message === 'Unauthorized') return res.status(401).json({ message });
+    next(error);
   }
 };
 
@@ -31,8 +31,8 @@ const postUser = async (req, res, next) => {
       .json({ user: newUser, token });
   } catch (error) {
     const message = error?.message;
-    if (message === 'Conflict') res.status(409).json({ message });
-    else next(error);
+    if (message === 'Conflict') return res.status(409).json({ message });
+    next(error);
   }
 };
 
