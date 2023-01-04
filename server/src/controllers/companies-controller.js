@@ -1,5 +1,5 @@
 const {
-  findAllCompanies, calcCompanyScore, insertCompany, findCompanyById,
+  findAllCompanies, calcCompanyScore, insertCompany,
 } = require('../collections/companies-collection');
 
 const getAllCompanies = async (_req, res, next) => {
@@ -14,8 +14,7 @@ const getAllCompanies = async (_req, res, next) => {
 const postCompany = async (req, res, next) => {
   try {
     const { company } = req.body;
-    const { insertedId } = await insertCompany(company);
-    const newCompany = await findCompanyById(insertedId);
+    const newCompany = await insertCompany(company);
     res.status(200).json({ company: newCompany });
   } catch (error) {
     next(error);
