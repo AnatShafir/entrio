@@ -13,4 +13,9 @@ module.exports = {
   },
   TOKEN_SECRET: process.env.TOKEN_SECRET,
   tokenExpiresIn: '3d',
+  authCookieName: 'SESSIOID',
+  corsOptions: {
+    credentials: true,
+    origin: ['http://localhost:4200'],
+  },
 };

@@ -2,6 +2,7 @@ const {
   updateUserSettingsById, insertUser, findUserById, validateLogin,
 } = require('../collections/users-collection');
 const { generateToken } = require('../utils/jwt');
+const { authCookieName } = require('../config');
 
 const generateUserToken = ({ _id, role }) => generateToken({ _id, role });
 
@@ -10,7 +11,10 @@ const postUserLogin = async (req, res, next) => {
     const { user } = req.body;
     const userData = await validateLogin(user);
     const token = generateUserToken(userData);
-    res.status(200).json({ user: userData, token });
+    res
+      .status(200)
+      .cookie(authCookieName, token, { httpOnly: true, secure: true })
+      .json({ user: userData });
   } catch (error) {
     const message = error?.message;
     if (message === 'Unauthorized') res.status(401).json({ message });
@@ -24,7 +28,10 @@ const postUser = async (req, res, next) => {
     const { insertedId } = await insertUser(user);
     const newUser = await findUserById(insertedId);
     const token = generateUserToken(newUser);
-    res.status(200).json({ user: newUser, token });
+    res
+      .status(200)
+      .cookie(authCookieName, token, { httpOnly: true, secure: true })
+      .json({ user: newUser, token });
   } catch (error) {
     const message = error?.message;
     if (message === 'Conflict') res.status(409).json({ message });
