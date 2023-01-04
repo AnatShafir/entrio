@@ -34,7 +34,7 @@ const authenticateUser = async (userInfo) => {
 
 const isUpdateForbidden = async (userId, settingsUpdate) => {
   const user = await findUserById(userId);
-  return user?.role !== 'admin' && settingsUpdate.userScoringAvg;
+  return user?.role !== 'admin' && settingsUpdate.userScoring;
 };
 
 const validateSettings = (settings) => {
