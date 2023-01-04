@@ -37,7 +37,7 @@ const postUser = async (req, res, next) => {
     res
       .status(200)
       .cookie(authCookieName, token, { httpOnly: true, secure: true })
-      .json({ user: newUser, token });
+      .json({ user: newUser });
   } catch (error) {
     const message = error?.message;
     if (message === 'Conflict') return res.status(409).json({ message });
