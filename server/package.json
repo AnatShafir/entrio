@@ -7,7 +7,8 @@
     "start": "node src/index.js | pino-pretty",
     "dev": "node --watch src/index.js | pino-pretty",
     "test": "jest",
-    "generate-token": "node generate-token.dev.js >> .env"
+    "generate-token": "node generate-token.dev.js >> .env",
+    "lint": "eslint . --fix"
   },
   "author": "Anat Shafir",
   "license": "ISC",
