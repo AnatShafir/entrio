@@ -7,7 +7,7 @@ import { BackendService } from './backend.service';
 })
 export class CompaniesService {
   private companiesRoute: string = 'company';
-  
+
   constructor(private backend: BackendService) { }
 
   async getCompanies() {
@@ -15,10 +15,17 @@ export class CompaniesService {
     if (!('companies' in response)) throw new Error('Response must contain companies');
     return response['companies'];
   }
-  
+
   async postCompany(company: Company) {
     const response = await this.backend.post(this.companiesRoute, { company });
     if (!('company' in response)) throw new Error('Response must contain company');
     return response['company'];
+  }
+
+  async getCompanyScore(companyId: string, userId: string) {
+    const route = `${this.companiesRoute}/${companyId}/score/${userId}`;
+    const response = await this.backend.get(route);
+    if (!('companyScore' in response)) throw new Error('Response must contain company score');
+    return response['companyScore'];
   }
 }

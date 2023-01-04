@@ -14,6 +14,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { AppComponent } from './app.component';
 import { CompaniesListComponent } from './components/companies-list/companies-list.component';
@@ -52,7 +53,8 @@ import { ErrorDialogComponent } from './components/error-dialog/error-dialog.com
     MatButtonModule,
     MatExpansionModule,
     MatDividerModule,
-    ReactiveFormsModule 
+    ReactiveFormsModule,
+    MatSnackBarModule 
   ],
   providers: [],
   bootstrap: [AppComponent]
