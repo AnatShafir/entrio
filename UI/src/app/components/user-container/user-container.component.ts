@@ -10,20 +10,19 @@ import { UsersService } from 'src/app/services/users.service';
   styleUrls: ['./user-container.component.css']
 })
 export class UserContainerComponent {
-  userLoggedIn: boolean = false;
   showUserRegister: boolean = false;
   
   constructor(
     private userService: UsersService,
     private errorService: ErrorService,
-    private currentUser: CurrentUserService
+    public currentUser: CurrentUserService
   ) {}
 
   async handleLogin(userForm: UserForm) {
     try {
       const user = await this.userService.login(userForm);
       this.currentUser.setUser(user);
-      this.userLoggedIn = true;
+      this.currentUser.loggedIn = true;
     } catch (error: Error | any) {
       const message = error?.error?.message === 'Unauthorized' ? 'User name or password are incorrect' : '';
       this.errorService.openDialog(message);
@@ -34,7 +33,7 @@ export class UserContainerComponent {
     try {
       const user = await this.userService.register(userForm);
       this.currentUser.setUser(user);
-      this.userLoggedIn = true;
+      this.currentUser.loggedIn = true;
     } catch (error: Error | any) {
       const message = error?.error.message === 'Conflict' ? 'Sorry! This user name is already taken' : '';
       this.errorService.openDialog(message);

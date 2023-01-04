@@ -7,8 +7,7 @@ import { User } from '../interfaces/user';
 })
 export class CurrentUserService {
   private user?: User;
-
-  constructor() { }
+  loggedIn: boolean = false;
 
   getUser() {
     return this.user;

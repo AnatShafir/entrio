@@ -1,5 +1,5 @@
 <mat-card>
-  <ng-container *ngIf="!userLoggedIn; then unlogged; else logged"></ng-container>
+  <ng-container *ngIf="!currentUser.loggedIn; then unlogged; else logged"></ng-container>
 
   <ng-template #unlogged>
     
@@ -22,7 +22,7 @@
   </ng-template>
 
   <ng-template #logged>
-    <app-user-info *ngIf="userLoggedIn; else unlogged"></app-user-info>
+    <app-user-info *ngIf="currentUser.loggedIn; else unlogged"></app-user-info>
   </ng-template>
 
 </mat-card>
