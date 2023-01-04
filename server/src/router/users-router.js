@@ -9,6 +9,12 @@ const usersRouter = express.Router();
 
 usersRouter.post('/', validate('userBody'), postUser);
 usersRouter.post('/login', validate('userBody'), postUserLogin);
-usersRouter.patch('/settings', authenticateToken, authorize('user', 'admin'), patchUserSettings);
+usersRouter.patch(
+  '/settings',
+  authenticateToken,
+  authorize('user', 'admin'),
+  validate('settingsBody'),
+  patchUserSettings,
+);
 
 module.exports = usersRouter;
