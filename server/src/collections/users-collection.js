@@ -1,9 +1,10 @@
-const { defaultSettings } = require('../config');
+const { adminUser } = require('../config');
 const getDBFunctions = require('../db/db-functions');
+const { findDefaultSettings } = require('./default-settings-collection');
 
 const collectionName = 'users';
 const {
-  updateById, insert, findById, findByName,
+  updateById, insert, findById, findByName, findAll,
 } = getDBFunctions(collectionName);
 
 const insertUser = async (user) => {
@@ -11,8 +12,9 @@ const insertUser = async (user) => {
   const existingUser = await findByName(username);
   if (existingUser) throw new Error('Conflict');
   else {
+    const settings = await findDefaultSettings();
     const formattedUser = {
-      username, password, settings: defaultSettings, role: 'user',
+      username, password, settings, role: 'user',
     };
     const { insertedId } = await insert(formattedUser);
     return { ...formattedUser, _id: insertedId };
@@ -45,11 +47,20 @@ const validateSettings = (settings) => {
 
 const updateUserSettingsById = async (userId, settingsUpdate) => {
   const updateForbidden = await isUpdateForbidden(userId, settingsUpdate);
+  const defaultSettings = await findDefaultSettings();
   const newSettings = { ...defaultSettings, ...settingsUpdate };
   if (updateForbidden || !validateSettings(newSettings)) throw new Error('Forbidden');
   return await updateById(userId, { settings: newSettings });
 };
 
+const initAdminUser = async () => {
+  const adminUsers = await findAll({ role: 'admin' });
+  if (adminUsers.length) return;
+  const settings = await findDefaultSettings();
+  const newAdminUser = { ...adminUser, settings };
+  await insert(newAdminUser);
+};
+
 module.exports = {
-  updateUserSettingsById, insertUser, findUserById, validateLogin,
+  updateUserSettingsById, insertUser, findUserById, validateLogin, initAdminUser,
 };

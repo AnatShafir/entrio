@@ -17,14 +17,19 @@ const findByNameFunc = (collectionName) => async (username) => {
   return await collection.findOne({ username });
 };
 
-const findAllFunc = (collectionName) => async () => {
+const findAllFunc = (collectionName) => async (filterObject) => {
   const collection = getDB().collection(collectionName);
-  return await collection.find().toArray();
+  return await collection.find(filterObject).toArray();
 };
 
 const updateByIdFunc = (collectionName) => async (id, updateObj) => {
   const collection = getDB().collection(collectionName);
   return await collection.updateOne({ _id: ObjectId(id) }, { $set: updateObj });
+};
+
+const updateAllFunc = (collectionName) => async (updateObj) => {
+  const collection = getDB().collection(collectionName);
+  return await collection.updateMany({ }, { $set: updateObj });
 };
 
 const getDBFunctions = (collectionName) => ({
@@ -33,6 +38,7 @@ const getDBFunctions = (collectionName) => ({
   findAll: findAllFunc(collectionName),
   updateById: updateByIdFunc(collectionName),
   findByName: findByNameFunc(collectionName),
+  updateAll: updateAllFunc(collectionName),
 });
 
 module.exports = getDBFunctions;
