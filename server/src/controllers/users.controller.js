@@ -45,7 +45,7 @@ const postUser = async (req, res, next) => {
   }
 };
 
-const patchUserSettings = async (req, res, next) => {
+const putUserSettings = async (req, res, next) => {
   try {
     const { reqId } = req;
     const { _id: userId } = req.user;
@@ -63,5 +63,5 @@ const patchUserSettings = async (req, res, next) => {
 };
 
 module.exports = {
-  postUser, patchUserSettings, postUserLogin,
+  postUser, putUserSettings, postUserLogin,
 };

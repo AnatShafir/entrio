@@ -1,6 +1,6 @@
 const express = require('express');
 
-const { postUser, patchUserSettings, postUserLogin } = require('../controllers/users.controller');
+const { postUser, putUserSettings, postUserLogin } = require('../controllers/users.controller');
 const authorize = require('../middleware/authorization.middleware');
 const authenticateToken = require('../middleware/authentication.middleware');
 const validate = require('../middleware/validation.middleware');
@@ -9,12 +9,12 @@ const usersRouter = express.Router();
 
 usersRouter.post('/', validate('userBody'), postUser);
 usersRouter.post('/login', validate('userBody'), postUserLogin);
-usersRouter.patch(
+usersRouter.put(
   '/settings',
   authenticateToken,
   authorize('user', 'admin'),
   validate('settingsBody'),
-  patchUserSettings,
+  putUserSettings,
 );
 
 module.exports = usersRouter;
