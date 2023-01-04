@@ -1,6 +1,6 @@
 const express = require('express');
 
-const authorize = require('../middleware/authorization.js');
+const authorize = require('../middleware/authorization');
 const {
   getAllCompanies, getCompanyById, postCompany, getCompanyScore,
 } = require('../controllers/companies-controller');

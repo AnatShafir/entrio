@@ -3,7 +3,7 @@ const express = require('express');
 const {
   postUser, getUserById, patchUserSettings, postUserAuthenticate,
 } = require('../controllers/users-controller');
-const authorize = require('../middleware/authorization.js');
+const authorize = require('../middleware/authorization');
 
 const userPermitted = authorize('user', 'admin');
 const usersRouter = express.Router();
