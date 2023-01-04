@@ -7,7 +7,7 @@ const userPermitted = authorize('user', 'admin');
 const companiesRouter = express.Router();
 
 companiesRouter.get('/', getAllCompanies);
-companiesRouter.get('/:id/score', userPermitted, getCompanyScore);
+companiesRouter.get('/:id/score/:userId', userPermitted, getCompanyScore);
 companiesRouter.post('/', postCompany);
 
 module.exports = companiesRouter;

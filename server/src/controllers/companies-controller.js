@@ -34,9 +34,8 @@ const postCompany = async (req, res, next) => {
 
 const getCompanyScore = async (req, res, next) => {
   try {
-    const companyId = req.params.id;
-    const { userId } = req.body;
-    const companyScore = calcCompanyScore(companyId, userId);
+    const { id, userId } = req.params;
+    const companyScore = calcCompanyScore(id, userId);
     res.status(200).json({ companyScore });
   } catch (error) {
     next(error);
