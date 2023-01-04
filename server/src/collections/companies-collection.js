@@ -16,9 +16,9 @@ const getSizeScore = (size) => {
 };
 
 const getFundingScore = (funding) => {
-  if (funding < 1000000) return 1;
-  if (funding < 10000000) return 2;
-  if (funding < 100000000) return 3;
+  if (funding < 1_000_000) return 1;
+  if (funding < 10_000_000) return 2;
+  if (funding < 100_000_000) return 3;
   return 4;
 };
 
@@ -48,8 +48,8 @@ const calcCompanyScore = async (companyId, userId) => {
     const companyValueScore = getScore[key](company[key]);
     const weight = settings[key];
     return score + companyValueScore * weight;
-  });
-  return companyScore;
+  }, 0);
+  return Number(companyScore.toFixed(2));
 };
 
 module.exports = {
