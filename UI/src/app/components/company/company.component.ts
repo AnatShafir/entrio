@@ -31,8 +31,9 @@ export class CompanyComponent {
       const score = await this.companiesService.getCompanyScore(this.company!._id);
       const message = `The company "${this.company?.name}" got the score ${score}`;
       this._snackBar.open(message, 'Ok');
-    } catch (error) {
-      this.errorService.openDialog();
+    } catch (error: Error | any) {
+      const message = error?.error?.message === 'Unauthorized' ? 'Please login before trying to calculate company score' : '';
+      this.errorService.openDialog(message);
     }
   }
 }
