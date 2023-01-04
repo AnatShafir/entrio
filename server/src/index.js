@@ -12,7 +12,11 @@ const start = async () => {
   logger.info('Connecting to the DB...', dbConfig);
   await connectDB(dbConfig);
   logger.info('Db connected successfully');
+
+  logger.info('Initializing DB...');
   await dbInit();
+  logger.info('DB initialized successfully');
+
   server = app.listen(port, () => {
     logger.info(`App is listening on port: ${port}`, server.address());
   });
