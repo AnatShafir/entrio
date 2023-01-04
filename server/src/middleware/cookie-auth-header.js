@@ -7,7 +7,9 @@ module.exports = (req, res, next) => {
 
   const { cookie } = req.headers;
   const cookiesEntries = cookie.split('; ').map((cookieStr) => cookieStr.split('='));
-  const [, authCookie] = cookiesEntries.find(([key]) => key === authCookieName);
+  const authCookieEntry = cookiesEntries.find(([key]) => key === authCookieName);
+  if (!authCookieEntry) return next();
+  const [, authCookie] = authCookieEntry;
   const logObject = logger.level === 'debug' ? { authCookie } : { authCookie: !!authCookie };
   logger.info('Adding cookie auth to headers', { ...logObject, reqId: req.reqId });
   req.headers.authorization = `Bearer ${authCookie}`;
