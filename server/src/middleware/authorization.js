@@ -1,6 +1,6 @@
 module.exports = (...permittedRoles) => (req, res, next) => {
   const { user } = req.body;
-
-  if (user && permittedRoles.includes(user.role)) next();
-  else res.status(403).json({ message: 'Forbidden' });
+  const { id } = req.params;
+  if (user && permittedRoles.includes(user.role) && user.id === id) return next();
+  res.status(403).json({ message: 'Forbidden' });
 };

@@ -13,5 +13,6 @@ module.exports = {
   },
   rules: {
     'no-return-await': 0,
+    'consistent-return': 0,
   },
 };
