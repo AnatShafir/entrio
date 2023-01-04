@@ -17,13 +17,13 @@ export class BackendService {
     return await lastValueFrom(requestObserver);
   }
   
-  async post(route: string, object: object) {
-    const requestObserver = this.http.post<Response>(`${this.serverUrl}/${route}`, object);
+  async post(route: string, body: object) {
+    const requestObserver = this.http.post<Response>(`${this.serverUrl}/${route}`, body);
     return await lastValueFrom(requestObserver)
   }
 
-  async patch(route: string, object: object) {
-    const requestObserver = this.http.patch<Response>(`${this.serverUrl}/${route}`, object);
+  async patch(route: string, body: object) {
+    const requestObserver = this.http.patch<Response>(`${this.serverUrl}/${route}`, body);
     return await lastValueFrom(requestObserver)
   }
 }

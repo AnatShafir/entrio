@@ -10,9 +10,7 @@ import { Company } from 'src/app/interfaces/company';
 export class AddCompanyFormComponent {
   company = {} as Company;
 
-  constructor(
-    public dialogRef: MatDialogRef<AddCompanyFormComponent>
-  ) {}
+  constructor(public dialogRef: MatDialogRef<AddCompanyFormComponent>) {}
 
   onNoClick(): void {
     this.dialogRef.close();
