@@ -27,16 +27,6 @@ const postUser = async (req, res, next) => {
   }
 };
 
-const getUserById = async (req, res, next) => {
-  try {
-    const { id } = req.params;
-    const user = await findUserById(id);
-    res.status(200).json({ user });
-  } catch (error) {
-    next(error);
-  }
-};
-
 const patchUserSettings = async (req, res, next) => {
   try {
     const userId = req.params.id;
@@ -51,5 +41,5 @@ const patchUserSettings = async (req, res, next) => {
 };
 
 module.exports = {
-  postUser, getUserById, patchUserSettings, postUserAuthenticate,
+  postUser, patchUserSettings, postUserAuthenticate,
 };
