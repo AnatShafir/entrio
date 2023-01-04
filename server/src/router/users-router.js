@@ -8,6 +8,6 @@ const usersRouter = express.Router();
 
 usersRouter.post('/', postUser);
 usersRouter.post('/login', postUserLogin);
-usersRouter.patch('/:id/settings', authenticateToken, authorize('user', 'admin'), patchUserSettings);
+usersRouter.patch('/settings', authenticateToken, authorize('user', 'admin'), patchUserSettings);
 
 module.exports = usersRouter;

@@ -11,16 +11,6 @@ const getAllCompanies = async (_req, res, next) => {
   }
 };
 
-const getCompanyById = async (req, res, next) => {
-  try {
-    const companyId = req.params.id;
-    const company = await findCompanyById(companyId);
-    res.status(200).json({ company });
-  } catch (error) {
-    next(error);
-  }
-};
-
 const postCompany = async (req, res, next) => {
   try {
     const { company } = req.body;
@@ -34,7 +24,8 @@ const postCompany = async (req, res, next) => {
 
 const getCompanyScore = async (req, res, next) => {
   try {
-    const { id, userId } = req.params;
+    const { id } = req.params;
+    const { _id: userId } = req.user;
     const companyScore = await calcCompanyScore(id, userId);
     res.status(200).json({ companyScore });
   } catch (error) {
@@ -43,5 +34,5 @@ const getCompanyScore = async (req, res, next) => {
 };
 
 module.exports = {
-  getCompanyById, postCompany, getCompanyScore, getAllCompanies,
+  postCompany, getCompanyScore, getAllCompanies,
 };

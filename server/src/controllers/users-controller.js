@@ -41,7 +41,7 @@ const postUser = async (req, res, next) => {
 
 const patchUserSettings = async (req, res, next) => {
   try {
-    const userId = req.params.id;
+    const { _id: userId } = req.user;
     const { settings } = req.body;
     await updateUserSettingsById(userId, settings);
     res.status(200).json({ message: 'Updated' });
