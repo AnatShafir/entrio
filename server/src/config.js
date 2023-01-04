@@ -11,4 +11,6 @@ module.exports = {
     age: 0.2,
     userScoringAvg: 0.1,
   },
+  TOKEN_SECRET: process.env.TOKEN_SECRET,
+  tokenExpiresIn: '1800s',
 };

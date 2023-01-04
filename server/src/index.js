@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const app = require('./app');
 const { db: dbConfig, port } = require('./config');
 const { connectDB, closeDB } = require('./db/db-client');
