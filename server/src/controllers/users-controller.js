@@ -1,14 +1,11 @@
 const { updateUserSettingsById, insertUser, validateLogin } = require('../collections/users-collection');
 const { generateToken } = require('../utils/jwt');
-const { validator } = require('../utils/validation');
 const { authCookieName } = require('../config');
 
 const generateUserToken = ({ _id, role }) => generateToken({ _id, role });
 
 const postUserLogin = async (req, res, next) => {
   try {
-    const validate = validator.getSchema('postUserBody');
-    if (!validate(req.body)) return res.status(400).json({ errors: validate.errors });
     const { user } = req.body;
     const userData = await validateLogin(user);
     const token = generateUserToken(userData);
