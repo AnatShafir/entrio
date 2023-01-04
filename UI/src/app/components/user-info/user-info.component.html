@@ -2,50 +2,10 @@
   <mat-card-header>
     <mat-card-title>{{ currentUser.getUser()?.username }}</mat-card-title>
     <mat-card-subtitle>{{ currentUser.getUser()?.role }}</mat-card-subtitle>
+    <div *ngIf="currentUser.getUser()?.role === 'admin'">
+      Show default settings
+      <mat-slide-toggle [(ngModel)]="editDefaultSettings" (change)="loadRelevantSettings()"></mat-slide-toggle>
+    </div>
   </mat-card-header>
-  <form #form="ngForm" (ngSubmit)="onSaveChanges(form)">
-    <mat-card-content>
-
-      <mat-form-field>
-        <input name="size" #size="ngModel" [ngModel]="currentUser.getSettings()!.size" matInput required
-          pattern="^(0(\.\d+)?|1(\.0+)?)$" [disabled]="isDisabled">
-        <mat-error *ngIf="!size.valid" class="alert alert-danger">
-          Size must be a number between 0-1
-        </mat-error>
-        <span matTextPrefix>Size</span>
-      </mat-form-field>
-
-      <mat-form-field>
-        <input name="funding" #funding="ngModel" [ngModel]="currentUser.getSettings()!.funding" matInput required
-          pattern="^(0(\.\d+)?|1(\.0+)?)$" [disabled]="isDisabled">
-        <mat-error *ngIf="!funding.valid" class="alert alert-danger">
-          Funding must be a number between 0-1
-        </mat-error>
-        <span matTextPrefix>Funding</span>
-      </mat-form-field>
-
-      <mat-form-field>
-        <input name="age" #age="ngModel" [ngModel]="currentUser.getSettings()!.age" matInput required
-          pattern="^(0(\.\d+)?|1(\.0+)?)$" [disabled]="isDisabled">
-        <mat-error *ngIf="!age.valid" class="alert alert-danger">
-          Age must be a number between 0-1
-        </mat-error>
-        <span matTextPrefix>Age</span>
-      </mat-form-field>
-
-      <mat-form-field>
-        <input name="userScoring" #userScoring="ngModel" [ngModel]="currentUser.getSettings()!.userScoring" matInput
-          required pattern="^(0(\.\d+)?|1(\.0+)?)$" [disabled]="isDisabled || currentUser.getUser()?.role !== 'admin'">
-        <mat-error *ngIf="!userScoring.valid" class="alert alert-danger">
-          User scoring must be a number between 0-1
-        </mat-error>
-        <span class="prefix" matTextPrefix>User scoring</span>
-      </mat-form-field>
-
-    </mat-card-content>
-    <mat-card-actions>
-      <button type="button" mat-raised-button (click)="editMode(form)">{{ isDisabled ? 'Edit settings' : 'Cancel' }}</button>
-      <button type="submit" *ngIf="!isDisabled" mat-raised-button [disabled]="!form.form.valid">Save changes</button>
-    </mat-card-actions>
-  </form>
+  <app-settings [editDefaultSettings]="editDefaultSettings"  [settings]="settings" [disableUserScoring]="currentUser.getUser()?.role !== 'admin'"></app-settings>
 </mat-card>

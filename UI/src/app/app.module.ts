@@ -15,6 +15,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 import { AppComponent } from './app.component';
 import { CompaniesListComponent } from './components/companies-list/companies-list.component';
@@ -25,6 +26,7 @@ import { UserInfoComponent } from './components/user-info/user-info.component';
 import { UserContainerComponent } from './components/user-container/user-container.component';
 import { UserFormComponent } from './components/user-form/user-form.component';
 import { ErrorDialogComponent } from './components/error-dialog/error-dialog.component';
+import { SettingsComponent } from './components/settings/settings.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +39,7 @@ import { ErrorDialogComponent } from './components/error-dialog/error-dialog.com
     UserContainerComponent,
     UserFormComponent,
     ErrorDialogComponent,
+    SettingsComponent,
   ],
   imports: [
     BrowserModule,
@@ -54,7 +57,8 @@ import { ErrorDialogComponent } from './components/error-dialog/error-dialog.com
     MatExpansionModule,
     MatDividerModule,
     ReactiveFormsModule,
-    MatSnackBarModule 
+    MatSnackBarModule,
+    MatSlideToggleModule
   ],
   providers: [],
   bootstrap: [AppComponent]

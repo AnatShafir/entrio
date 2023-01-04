@@ -1,0 +1,11 @@
+mat-form-field {
+  width: 100%;
+}
+
+input {
+  text-align: right;
+}
+
+mat-card-actions > button {
+  margin-right: 30px;
+}

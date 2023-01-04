@@ -1,11 +1,3 @@
-mat-form-field {
-  width: 100%;
-}
-
-input {
-  text-align: right;
-}
-
-button {
-  margin-right: 30px;
+mat-card-header {
+  justify-content: space-between;
 }

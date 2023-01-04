@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Settings } from '../interfaces/settings';
-import { User } from '../interfaces/user';
 import { CurrentUserService } from './current-user.service';
-import { ErrorService } from './error.service';
+import { DefaultSettingsService } from './default-settings.service';
 import { UsersService } from './users.service';
 
 @Injectable({
@@ -12,22 +11,25 @@ export class SettingsService {
 
   constructor(
     private currentUser: CurrentUserService,
-    private usersService: UsersService
+    private usersService: UsersService,
+    private defaultSettings: DefaultSettingsService
   ) { }
 
-  async update(settingsUpdate: Settings) {
-    const currentUserSettings = this.currentUser.getSettings()  as Settings;
-    const newSetting = { ...currentUserSettings, ...settingsUpdate };
-    const isEqualSettings = this.settingsDeepEqual(newSetting, currentUserSettings);
+  async update(settingsUpdate: Settings, currentSettings: Settings, isDefault: boolean) {
+    const newSettings = { ...currentSettings, ...settingsUpdate };
+    const isEqualSettings = this.settingsDeepEqual(newSettings, currentSettings);
     if (isEqualSettings) return;
-    this.validateSettings(newSetting);
-    await this.saveChanges(settingsUpdate);
+    this.validateSettings(newSettings);
+    await this.saveChanges(settingsUpdate, newSettings, isDefault);
+    return newSettings;
   }
-
-  async saveChanges(settingsUpdate: Settings) {
-    const currentUser = this.currentUser.getUser() as User;
-    await this.usersService.updateSettings(settingsUpdate);
-    this.currentUser.setSettings({ ...currentUser.settings, ...settingsUpdate });
+  
+  async saveChanges(settingsUpdate: Settings, newSettings: Settings, isDefault: boolean) {
+    if (isDefault) await this.defaultSettings.update(settingsUpdate);
+    else {
+      await this.usersService.updateSettings(settingsUpdate);
+      this.currentUser.setSettings(newSettings);
+    }
   }
 
   settingsDeepEqual(firstSettings: Settings, secondSettings: Settings) {
