@@ -1,8 +1,7 @@
+const logger = require('../utils/logger');
 const {
   findAllCompanies, calcCompanyScore, insertCompany,
 } = require('../collections/companies.collection');
-
-const logger = require('../utils/logger');
 
 const getAllCompanies = async (req, res, next) => {
   try {

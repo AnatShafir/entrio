@@ -1,6 +1,6 @@
+const logger = require('../utils/logger');
 const { updateUserSettingsById, insertUser, validateLogin } = require('../collections/users.collection');
 const { generateToken } = require('../utils/jwt');
-const logger = require('../utils/logger');
 
 const { authCookieName } = require('../config');
 
