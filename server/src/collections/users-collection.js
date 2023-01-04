@@ -14,7 +14,8 @@ const insertUser = async (user) => {
     const formattedUser = {
       username, password, settings: defaultSettings, role: 'user',
     };
-    return await insert(formattedUser);
+    const { insertedId } = await insert(formattedUser);
+    return { ...formattedUser, _id: insertedId };
   }
 };
 

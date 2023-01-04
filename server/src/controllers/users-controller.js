@@ -1,6 +1,4 @@
-const {
-  updateUserSettingsById, insertUser, findUserById, validateLogin,
-} = require('../collections/users-collection');
+const { updateUserSettingsById, insertUser, validateLogin } = require('../collections/users-collection');
 const { generateToken } = require('../utils/jwt');
 const { authCookieName } = require('../config');
 
@@ -25,8 +23,7 @@ const postUserLogin = async (req, res, next) => {
 const postUser = async (req, res, next) => {
   try {
     const { user } = req.body;
-    const { insertedId } = await insertUser(user);
-    const newUser = await findUserById(insertedId);
+    const newUser = await insertUser(user);
     const token = generateUserToken(newUser);
     res
       .status(200)
