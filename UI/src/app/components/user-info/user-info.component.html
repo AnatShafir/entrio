@@ -1,13 +1,13 @@
 <mat-card>
   <mat-card-header>
-    <mat-card-title>{{ user?.username }}</mat-card-title>
-    <mat-card-subtitle>{{ user?.role }}</mat-card-subtitle>
+    <mat-card-title>{{ currentUser.getUser()?.username }}</mat-card-title>
+    <mat-card-subtitle>{{ currentUser.getUser()?.role }}</mat-card-subtitle>
   </mat-card-header>
   <form #form="ngForm" (ngSubmit)="onSaveChanges(form)">
     <mat-card-content>
 
       <mat-form-field>
-        <input name="size" #size="ngModel" [ngModel]="user!.settings.size" matInput required
+        <input name="size" #size="ngModel" [ngModel]="currentUser.getSettings()!.size" matInput required
           pattern="^(0(\.\d+)?|1(\.0+)?)$" [disabled]="isDisabled">
         <mat-error *ngIf="!size.valid" class="alert alert-danger">
           Size must be a number between 0-1
@@ -16,7 +16,7 @@
       </mat-form-field>
 
       <mat-form-field>
-        <input name="funding" #funding="ngModel" [ngModel]="user!.settings.funding" matInput required
+        <input name="funding" #funding="ngModel" [ngModel]="currentUser.getSettings()!.funding" matInput required
           pattern="^(0(\.\d+)?|1(\.0+)?)$" [disabled]="isDisabled">
         <mat-error *ngIf="!funding.valid" class="alert alert-danger">
           Funding must be a number between 0-1
@@ -25,7 +25,7 @@
       </mat-form-field>
 
       <mat-form-field>
-        <input name="age" #age="ngModel" [ngModel]="user!.settings.age" matInput required
+        <input name="age" #age="ngModel" [ngModel]="currentUser.getSettings()!.age" matInput required
           pattern="^(0(\.\d+)?|1(\.0+)?)$" [disabled]="isDisabled">
         <mat-error *ngIf="!age.valid" class="alert alert-danger">
           Age must be a number between 0-1
@@ -34,8 +34,8 @@
       </mat-form-field>
 
       <mat-form-field>
-        <input name="userScoringAvg" #userScoringAvg="ngModel" [ngModel]="user!.settings.userScoringAvg" matInput
-          required pattern="^(0(\.\d+)?|1(\.0+)?)$" [disabled]="isDisabled || user?.role !== 'admin'">
+        <input name="userScoringAvg" #userScoringAvg="ngModel" [ngModel]="currentUser.getSettings()!.userScoringAvg" matInput
+          required pattern="^(0(\.\d+)?|1(\.0+)?)$" [disabled]="isDisabled || currentUser.getUser()?.role !== 'admin'">
         <mat-error *ngIf="!userScoringAvg.valid" class="alert alert-danger">
           User scoring average must be a number between 0-1
         </mat-error>

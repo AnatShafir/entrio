@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { User } from 'src/app/interfaces/user';
 import { UserForm } from 'src/app/interfaces/user-form';
+import { CurrentUserService } from 'src/app/services/current-user.service';
 import { ErrorService } from 'src/app/services/error.service';
 import { UsersService } from 'src/app/services/users.service';
 
@@ -12,13 +12,17 @@ import { UsersService } from 'src/app/services/users.service';
 export class UserContainerComponent {
   userLoggedIn: boolean = false;
   showUserRegister: boolean = false;
-  user?: User;
   
-  constructor(private userService: UsersService, private errorService: ErrorService) {}
+  constructor(
+    private userService: UsersService,
+    private errorService: ErrorService,
+    private currentUser: CurrentUserService
+  ) {}
 
   async handleLogin(userForm: UserForm) {
     try {
-      this.user = await this.userService.login(userForm);
+      const user = await this.userService.login(userForm);
+      this.currentUser.setUser(user);
       this.userLoggedIn = true;
     } catch (error: Error | any) {
       const message = error?.error?.message === 'Unauthorized' ? 'User name or password are incorrect' : '';
@@ -28,7 +32,8 @@ export class UserContainerComponent {
   
   async handleRegister(userForm: UserForm) {
     try {
-      this.user = await this.userService.register(userForm);
+      const user = await this.userService.register(userForm);
+      this.currentUser.setUser(user);
       this.userLoggedIn = true;
     } catch (error: Error | any) {
       const message = error?.error.message === 'Conflict' ? 'Sorry! This user name is already taken' : '';
