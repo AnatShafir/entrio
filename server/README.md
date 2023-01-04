@@ -51,6 +51,24 @@ Backend service for 'Entrio' companies project
    npm run dev
    ```
 
+### Test
+
+1. Run mongoDB on your local machine
+
+2. Change `db.url` in the [test config file](./test/test-config.js) to your mongoDB url.
+
+3. Run test
+
+   ```bash
+   npm test
+   ```
+
+4. Run lint
+
+   ```bash
+   npm run lint
+   ```
+
 ## Built With
 
 - Web server: [Express.js](https://expressjs.com)
