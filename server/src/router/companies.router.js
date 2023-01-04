@@ -1,8 +1,8 @@
 const express = require('express');
 
-const authorize = require('../middleware/authorization');
-const authenticateToken = require('../middleware/authentication');
-const validate = require('../middleware/validation');
+const authorize = require('../middleware/authorization.middleware');
+const authenticateToken = require('../middleware/authentication.middleware');
+const validate = require('../middleware/validation.middleware');
 
 const { getAllCompanies, postCompany, getCompanyScore } = require('../controllers/companies.controller');
 

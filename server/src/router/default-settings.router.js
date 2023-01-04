@@ -1,8 +1,8 @@
 const express = require('express');
 
 const { getDefaultSettings, putDefaultSettings } = require('../controllers/default-settings.controller');
-const authorize = require('../middleware/authorization');
-const authenticateToken = require('../middleware/authentication');
+const authorize = require('../middleware/authorization.middleware');
+const authenticateToken = require('../middleware/authentication.middleware');
 
 const defaultSettingsRouter = express.Router();
 const adminAuthorize = authorize('admin');
