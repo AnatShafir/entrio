@@ -44,7 +44,8 @@ export class SettingsService {
   }
 
   validateSettings(settings: Settings) {
-    const sumOfSettings = Object.values(settings).reduce((a, b) => +(a + b).toFixed(2), 0);
+    const sumOfSettings = Object.values(settings)
+      .reduce((a: number, b: number) => Number((a + b).toFixed(2)), 0);
     if (sumOfSettings === 1) return;
     else throw {
       error: new Error('Validation'),

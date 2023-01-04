@@ -38,7 +38,7 @@ export class UserInfoComponent {
 
   getSettingsFromFormValue(formValue: Record<string, string>) {
     return Object.keys(formValue).reduce((settingsObj, settingKey) => {
-      settingsObj[settingKey as keyof Settings] = +parseFloat(formValue[settingKey]).toFixed(2);
+      settingsObj[settingKey as keyof Settings] = Number(parseFloat(formValue[settingKey]).toFixed(2));
       return settingsObj;
     }, {} as Settings);
   }
