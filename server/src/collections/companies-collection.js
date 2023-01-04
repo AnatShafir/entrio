@@ -5,8 +5,6 @@ const { insert, findById, findAll } = getDBFunctions(collectionName);
 
 const insertCompany = async (company) => await insert(company);
 
-const findCompanyById = async (companyId) => await findById(companyId);
-
 const findAllCompanies = async () => await findAll();
 
 const calcCompanyScore = async (companyId, userId) => {
@@ -21,5 +19,5 @@ const calcCompanyScore = async (companyId, userId) => {
 };
 
 module.exports = {
-  insertCompany, calcCompanyScore, findCompanyById, findAllCompanies,
+  insertCompany, calcCompanyScore, findAllCompanies,
 };
