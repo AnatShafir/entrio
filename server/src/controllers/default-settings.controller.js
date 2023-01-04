@@ -16,10 +16,10 @@ const getDefaultSettings = async (req, res, next) => {
 const putDefaultSettings = async (req, res, next) => {
   try {
     const { reqId } = req;
-    const { settingsUpdate } = req.body;
-    logger.info('Updating default settings...', { reqId, settingsUpdate });
-    await updateDefaultSettings(settingsUpdate);
-    logger.info('Default settings updated successfully', { reqId, settingsUpdate });
+    const { settings } = req.body;
+    logger.info('Updating default settings...', { reqId, settings });
+    await updateDefaultSettings(settings);
+    logger.info('Default settings updated successfully', { reqId, settings });
     res.status(200).json({ message: 'Updated' });
   } catch (error) {
     next(error);
