@@ -1,6 +1,6 @@
 module.exports = {
   port: 3000,
-  logLevel: 'info',
+  logLevel: process.env.LOG_LEVEL || 'info',
   db: {
     url: 'mongodb://127.0.0.1:27017',
     dbName: 'entrio',
