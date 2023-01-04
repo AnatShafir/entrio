@@ -1,15 +1,14 @@
 const {
-  updateUserSettingsById, insertUser, findUserById, authenticateUser,
+  updateUserSettingsById, insertUser, findUserById, validateLogin,
 } = require('../collections/users-collection');
+const { generateToken } = require('../utils/jwt');
 
-const { generateAccessToken } = require('../utils/jwt');
-
-const generateUserToken = ({ _id, role }) => generateAccessToken({ _id, role });
+const generateUserToken = ({ _id, role }) => generateToken({ _id, role });
 
 const postUserLogin = async (req, res, next) => {
   try {
     const { user } = req.body;
-    const userData = await authenticateUser(user);
+    const userData = await validateLogin(user);
     const token = generateUserToken(userData);
     res.status(200).json({ user: userData, token });
   } catch (error) {

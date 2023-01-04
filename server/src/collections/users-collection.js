@@ -20,7 +20,7 @@ const insertUser = async (user) => {
 
 const findUserById = async (userId) => await findById(userId);
 
-const authenticateUser = async (userInfo) => {
+const validateLogin = async (userInfo) => {
   const user = await findByName(userInfo.username);
   if (user && userInfo.password === user.password) {
     const {
@@ -50,5 +50,5 @@ const updateUserSettingsById = async (userId, settingsUpdate) => {
 };
 
 module.exports = {
-  updateUserSettingsById, insertUser, findUserById, authenticateUser,
+  updateUserSettingsById, insertUser, findUserById, validateLogin,
 };
