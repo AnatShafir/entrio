@@ -22,9 +22,8 @@ export class CompaniesService {
     return response['company'];
   }
 
-  async getCompanyScore(companyId: string, userId: string) {
-    const route = `${this.companiesRoute}/${companyId}/score/${userId}`;
-    const response = await this.backend.get(route);
+  async getCompanyScore(companyId: string) {
+    const response = await this.backend.get(`${this.companiesRoute}/${companyId}/score`);
     if (!('companyScore' in response)) throw new Error('Response must contain company score');
     return response['companyScore'];
   }

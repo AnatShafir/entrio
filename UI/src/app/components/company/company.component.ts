@@ -28,8 +28,7 @@ export class CompanyComponent {
 
   async getCompanyScore() {
     try {
-      const userId = this.currentUser.getUser()?._id as string;
-      const score = await this.companiesService.getCompanyScore(this.company!._id, userId);
+      const score = await this.companiesService.getCompanyScore(this.company!._id);
       const message = `The company "${this.company?.name}" got the score ${score}`;
       this._snackBar.open(message, 'Ok');
     } catch (error) {

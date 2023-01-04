@@ -13,18 +13,18 @@ export class UsersService {
   constructor(private backend: BackendService) { }
 
   async login(userForm: UserForm) {
-    const response = await this.backend.post(`${this.route}/authenticate`, { user: userForm });
+    const response = await this.backend.post(`${this.route}/login`, { user: userForm });
     if (!('user' in response)) throw new Error('Response must contain user');
     return response['user'];
   }
-
+  
   async register(userForm: UserForm) {
     const response = await this.backend.post(`${this.route}`, { user: userForm });
     if (!('user' in response)) throw new Error('Response must contain user');
     return response['user'];
   }
 
-  async updateSettings(settings: Settings, user: User) {
-    await this.backend.patch(`${this.route}/${user._id}/settings`, { settings, user });
+  async updateSettings(settings: Settings) {
+    await this.backend.patch(`${this.route}/settings`, { settings });
   }
 }
