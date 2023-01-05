@@ -10,6 +10,8 @@ Calculate a score for any company based on personalized weights.
 
  - Admin user can customize all of their own settings and even change the default setting for all other users.
 
+ Initialized with an admin user from the config file.
+
 
 ## Getting started
 
@@ -35,6 +37,7 @@ For more details [read me](./server/README.md)
 
    ```bash
    cd UI
+   npm i
    ng serve
    ```
 
