@@ -6,7 +6,7 @@ const { findAll, insert, updateAll } = getDBFunctions(collectionName);
 
 const findDefaultSettings = async () => {
   const [settings] = await findAll();
-  delete settings._id;
+  delete settings?._id;
   return settings;
 };
 
