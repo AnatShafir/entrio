@@ -24,10 +24,18 @@ export class CompaniesListComponent {
 
   async addCompany(newCompany: Company) {
     try {
+      newCompany = this.convertToNumbers(newCompany);
       const company = await this.companiesService.postCompany(newCompany);
       this.companies.push(company);
     } catch (error) {
       this.errorService.openDialog();
     }
+  }
+
+  convertToNumbers(company: Company) {
+    company.size = Number(company.size);
+    company.funding = Number(company.funding);
+    company.age = Number(company.age);
+    return company;
   }
 }
