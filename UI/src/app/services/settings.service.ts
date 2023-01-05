@@ -18,7 +18,7 @@ export class SettingsService {
   async update(settingsUpdate: Settings, currentSettings: Settings, isDefault: boolean) {
     const newSettings = { ...currentSettings, ...settingsUpdate };
     const isEqualSettings = this.settingsDeepEqual(newSettings, currentSettings);
-    if (isEqualSettings) return;
+    if (isEqualSettings) return currentSettings;
     this.validateSettings(newSettings);
     await this.saveChanges(settingsUpdate, newSettings, isDefault);
     return newSettings;
