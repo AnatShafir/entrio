@@ -34,6 +34,7 @@ const getAgeScore = (age) => {
 };
 
 const getUserScoringScore = (userScoring) => {
+  if (userScoring.length < 1) return 0;
   const sumUserScoring = userScoring.reduce((a, b) => a + b, 0);
   return sumUserScoring / userScoring.length;
 };
