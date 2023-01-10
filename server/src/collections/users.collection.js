@@ -23,6 +23,11 @@ const insertUser = async (user) => {
 
 const findUserById = async (userId) => await findById(userId);
 
+const getUserSettings = async (userId) => {
+  const user = await findById(userId);
+  return user?.settings;
+};
+
 const validateLogin = async (userInfo) => {
   const user = await findByName(userInfo.username);
   if (user && userInfo.password === user.password) {
@@ -41,15 +46,16 @@ const isUpdateForbidden = async (userId, settingsUpdate) => {
 };
 
 const validateSettings = (settings) => {
-  const sumOfWeights = Object.values(settings).reduce((a, b) => +(a + b).toFixed(2), 0);
-  return sumOfWeights === 1;
+  const sumOfWeights = Object.values(settings).reduce((a, b) => a + b, 0);
+  return Math.abs(1 - sumOfWeights) < Number.EPSILON;
 };
 
 const updateUserSettingsById = async (userId, settingsUpdate) => {
   const updateForbidden = await isUpdateForbidden(userId, settingsUpdate);
-  const defaultSettings = await findDefaultSettings();
-  const newSettings = { ...defaultSettings, ...settingsUpdate };
-  if (updateForbidden || !validateSettings(newSettings)) throw new Error('Forbidden');
+  if (updateForbidden) throw new Error('Forbidden');
+  const userSettings = await getUserSettings(userId);
+  const newSettings = { ...userSettings, ...settingsUpdate };
+  if (!validateSettings(userSettings)) throw new Error('Forbidden');
   return await updateById(userId, { settings: newSettings });
 };
 
